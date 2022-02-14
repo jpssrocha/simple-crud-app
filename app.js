@@ -30,6 +30,6 @@ app.get('/', (req, res) => {
          // of create a scope to use with the EJS scriptlets with the passed
          // JSON or collection
 
-        res.render("index.ejs" , { dados: rows });
+        res.render("index.ejs" , { data: rows });
     });
 });
