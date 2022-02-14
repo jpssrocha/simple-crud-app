@@ -18,7 +18,7 @@ app.listen(PORT, () => {
 // (/) -> Get a general view of the database registers
 app.get('/', (req, res) => {
 
-    var SQL = "SELECT * FROM livros;";
+    var SQL = "SELECT * FROM livros ORDER BY id DESC;";
 
     db.all(SQL, [], (err, rows) => {
         // If the callback function returns some error it show it on the log.
