@@ -15,7 +15,7 @@ app.listen(PORT, () => {
     console.log(`Server running on: http://localhost:${PORT}`);
 });
 
-// "/" route -> Get a general view of the database registers
+// "/" route -> GET a general view of the database registers
 app.get("/", (req, res) => {
 
     const SQL = "SELECT * FROM livros ORDER BY id DESC;";
@@ -44,9 +44,23 @@ app.get("/about", (req, res) => res.render("about.ejs"));
 
 app.get("/insert_master", (req, res) => {
     // Load form
-    res.render("insert.ejs");
+    res.render("insert_master.ejs");
 });
 
 app.post("/insert_master", (req, res) => {
+
+    // Define SQL query
+    const SQL = "INSERT INTO livros (titulo, edicao, descricao, ideditora) VALUES (?, ? , ?, ?);";
+
+    // Take arguments from the URL
+    const {titulo, edicao, descricao, ideditora} = req.body;
+    const values = [titulo, edicao, descricao, ideditora];
+
+    db.run(SQL, values, (err) => {
+        if (err) {
+            console.error(err.msg)
+        }
+    });
+
     res.redirect("/")
 });
