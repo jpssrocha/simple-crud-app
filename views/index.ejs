@@ -24,14 +24,17 @@
     <tbody>
 
     <% for (const row of data) { %>
-            <% let {id, titulo, edicao, descricao, ideditora} = row; %>
+            <% const {id, titulo, edicao, descricao, ideditora, idpub} = row; %>
           <tr>
               <td> <%= id %> </td>
               <td> <%= titulo %> </td>
               <td> <%= edicao %> </td>
               <td> <%= descricao %> </td>
               <td> <%= ideditora %> </td>
-              <td> Placeholder </td>
+              <td class="d-print-none">  
+                  <a class="btn btn-sm btn-warning" href="/edit/<%= id %>/<%= idpub %>">Editar</a>  
+                  <a class="btn btn-sm btn-danger" href="/delete/<%= id %>/<%= idpub %>">Deletar</a>  
+              </td>  
           </tr>
     <% } %>
 
