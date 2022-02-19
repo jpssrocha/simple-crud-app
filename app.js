@@ -34,6 +34,11 @@ app.get("/", (req, res) => {
     });
 });
 
+// "/about" route -> GET the about page (not using static as middleware cause it
+// is the only static page ...
+
+app.get("/about", (req, res) => res.render("about.ejs"));
+
 // "/insert_master" route -> GET page with form for inserting new register on the
 // master table (livros) and POST it to the database.
 
