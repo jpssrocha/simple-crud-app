@@ -1,7 +1,14 @@
 <%- include("head.ejs") %>
 <body>
+    <h3> Registros </h3>
+    <br>
 
-    <table class="table table-striped table-sm">
+    <p> Registros das duas tabelas relacionadas (livros e publicações).</p>
+
+    <br>
+
+    <div class="form-group">
+    <table class="table table-hover">
     <thead>
     <tr>
         <th> id </th>
@@ -9,6 +16,9 @@
         <th> edicao </th>
         <th> descricao </th>
         <th> ideditora </th>
+        <th class="d-print-none">  
+        <a class="btn btn-sm btn-success" href="/insert_master">Novo registro</a>  
+        </th>  
     </tr>
     </thead>
     <tbody>
@@ -16,16 +26,18 @@
     <% for (const row of data) { %>
             <% let {id, titulo, edicao, descricao, ideditora} = row; %>
           <tr>
-              <th> <%= id %> </th>
-              <th> <%= titulo %> </th>
-              <th> <%= edicao %> </th>
-              <th> <%= descricao %> </th>
-              <th> <%= ideditora %> </th>
+              <td> <%= id %> </td>
+              <td> <%= titulo %> </td>
+              <td> <%= edicao %> </td>
+              <td> <%= descricao %> </td>
+              <td> <%= ideditora %> </td>
+              <td> Placeholder </td>
           </tr>
     <% } %>
 
     </tbody>
     </table>
+    </div>
  </body>  
 
  <%- include("foot.ejs") %>
