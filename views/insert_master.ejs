@@ -1,0 +1,46 @@
+<%- include("head.ejs") %>
+<body>
+    <h3> Incluir Registro </h3>
+
+    <form action="insert_master" method="post">
+
+        <!--
+            The name attribute is the identifiers that will be sent through the
+            HTTP request, while the id are the ones used to identify the HTML
+            elements, in this case the id is being used to link the input to
+            the label element.
+
+            The label element is used instead of a paragraph in this case to
+            make the page more accessible.
+        -->
+
+        <div>
+        <label for="titulo">Título</label>
+        <input type="text" class="form-control" id="titulo" name="titulo"/>
+        </div>
+
+        <div>
+        <label for="edicao">Ano da edição</label>
+        <input type="text" class="form-control" id="edicao" name="edicao"/>
+        </div>
+
+        <div>
+        <label for="descricao">Descrição</label>
+        <input type="text" class="form-control" id="descricao" name="descricao"/>
+        </div>
+
+        <div>
+        <label for="ideditora">ID da editora</label>
+        <input type="text" class="form-control" id="ideditora" name="ideditora"/>
+        </div>
+
+        <br>
+
+        <input type="submit" class="btn btn-primary" value="Inserir"/>
+        <a href="/" class="btn btn-outline-primary ">Voltar</a>  
+
+    </form>
+
+ </body>  
+
+ <%- include("foot.ejs") %>
