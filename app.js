@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 });
 
 // "/" route -> Get a general view of the database registers
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
 
     const SQL = "SELECT * FROM livros ORDER BY id DESC;";
 
@@ -32,4 +32,16 @@ app.get('/', (req, res) => {
 
         res.render("index.ejs" , { data: rows });
     });
+});
+
+// "/insert_master" route -> GET page with form for inserting new register on the
+// master table (livros) and POST it to the database.
+
+app.get("/insert_master", (req, res) => {
+    // Load form
+    res.render("insert.ejs");
+});
+
+app.post("/insert_master", (req, res) => {
+    res.redirect("/")
 });
