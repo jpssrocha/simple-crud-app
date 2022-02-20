@@ -39,15 +39,15 @@ app.get("/", (req, res) => {
 
 app.get("/about", (req, res) => res.render("about.ejs"));
 
-// "/insert_master" route -> GET page with form for inserting new register on the
+// "/insert_primary" route -> GET page with form for inserting new register on the
 // master table (livros) and POST it to the database.
 
-app.get("/insert_master", (req, res) => {
+app.get("/insert_primary", (req, res) => {
     // Load form
-    res.render("insert_master.ejs");
+    res.render("insert_primary.ejs");
 });
 
-app.post("/insert_master", (req, res) => {
+app.post("/insert_primary", (req, res) => {
 
     // Define SQL query
     const SQL = "INSERT INTO livros (titulo, edicao, descricao, ideditora) VALUES (?, ? , ?, ?);";
