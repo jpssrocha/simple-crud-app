@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express(); // Express boilerplate
+const methodOverride = require("method-override");
 
 const sqlite = require("sqlite3");
 let db = new sqlite.Database("./bd_livraria.db");
@@ -10,6 +11,7 @@ app.set("engine ejs", "ejs"); // Setting up node app to use ejs pages over html
 
 // Middleware
 app.use(express.urlencoded({extended: false})); // To get form data from req.body
+app.use(methodOverride("_method")); // To override POST from form into the proper method
 
 app.listen(PORT, () => {
     console.log(`Server running on: http://localhost:${PORT}`);
@@ -87,7 +89,7 @@ app.get("/edit/:id", (req, res) => {
 });
 
 
-app.post("/edit/:id", (req, res) => {
+app.put("/edit/:id", (req, res) => {
 
     // Get parameters
     const { titulo, edicao, descricao, ideditora } = req.body;
