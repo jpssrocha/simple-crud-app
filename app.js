@@ -58,9 +58,9 @@ app.post("/insert_primary", (req, res) => {
 
     db.run(SQL, values, (err) => {
         if (err) {
-            console.error(err.msg)
+            return console.error(err.msg);
         }
     });
 
-    res.redirect("/")
+    res.redirect("/");
 });
