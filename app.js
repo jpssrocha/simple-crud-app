@@ -64,3 +64,45 @@ app.post("/insert_primary", (req, res) => {
 
     res.redirect("/");
 });
+
+// "/edit" route -> GET page for editing then PUT modified version on the
+// database.
+
+app.get("/edit/:id", (req, res) => {
+
+    // Get id
+    const { id } = req.params;
+
+    // Recover info from this id
+    const SQL = "SELECT * FROM livros WHERE id=?";
+
+    db.get(SQL, id, (err, row) => {
+        if (err){
+            return console.error(err.message)
+        }
+
+        // Render page with the id info
+        res.render("edit.ejs", { row: row })
+    });
+});
+
+
+app.post("/edit/:id", (req, res) => {
+
+    // Get parameters
+    const { titulo, edicao, descricao, ideditora } = req.body;
+    const { id } = req.params;
+
+    // Recover info from this id
+    const data = [ titulo, edicao, descricao, ideditora, id ];
+    const SQL = "UPDATE livros SET titulo = ?, edicao = ?, descricao = ?, ideditora = ?  WHERE id = ?";
+
+    // Run query
+    db.run(SQL, data, (err) => {
+        if (err){
+            console.error(err.message);
+        }
+        
+        res.redirect("/");
+    });
+});
