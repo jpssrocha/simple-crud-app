@@ -20,7 +20,11 @@ app.listen(PORT, () => {
 // "/" route -> GET a general view of the database registers
 app.get("/", (req, res) => {
 
-    const SQL = "SELECT * FROM livros ORDER BY id DESC;";
+    const SQL = `SELECT * 
+                 FROM livros 
+                 INNER JOIN publicacao 
+                 ON (livros.id = publicacao.livro_id) 
+                 ORDER BY id DESC;`;
 
     db.all(SQL, [], (err, rows) => {
         // If the callback function returns some error it show it on the log.
