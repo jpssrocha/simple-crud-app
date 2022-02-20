@@ -3,7 +3,9 @@
     <h3> Registros </h3>
     <br>
 
-    <p> Registros das duas tabelas relacionadas (livros e publicações).</p>
+    <p> Registros das duas tabelas relacionadas: livros (mestre) e publicações
+    (detalhe). Cada livro pode ter múltiplas publicações associadas que estão
+    na tabela secundária: publicações.</p> 
 
     <br>
 
@@ -11,11 +13,11 @@
     <table class="table table-hover">
     <thead>
     <tr>
-        <th> id </th>
-        <th> titulo </th>
-        <th> edicao </th>
-        <th> descricao </th>
-        <th> ideditora </th>
+        <th> ID </th>
+        <th> Título </th>
+        <th> Edição </th>
+        <th> Descrição </th>
+        <th> ID da editora </th>
         <th class="d-print-none">  
         <a class="btn btn-sm btn-success" href="/insert_primary">Novo registro</a>  
         </th>  
@@ -24,14 +26,17 @@
     <tbody>
 
     <% for (const row of data) { %>
-            <% const {id, titulo, edicao, descricao, ideditora, idpub} = row; %>
+            <% const {id, titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao, idpub} = row; %>
           <tr>
               <td> <%= id %> </td>
               <td> <%= titulo %> </td>
               <td> <%= edicao %> </td>
               <td> <%= descricao %> </td>
               <td> <%= ideditora %> </td>
+              <td> <%= ano_publicacao %> </td>
+              <td> <%= nome_edicao %> </td>
               <td class="d-print-none">  
+                  <a class="btn btn-sm btn-info" href="/insert_detail/<%= id %>/<%= idpub %>">Incluir</a>  
                   <a class="btn btn-sm btn-warning" href="/edit/<%= id %>/<%= idpub %>">Editar</a>  
                   <a class="btn btn-sm btn-danger" href="/delete/<%= id %>/<%= idpub %>">Deletar</a>  
               </td>  
