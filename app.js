@@ -91,16 +91,55 @@ app.get("/edit/:id", (req, res) => {
 
 app.put("/edit/:id", (req, res) => {
 
-    // Get parameters
+    // get parameters
     const { titulo, edicao, descricao, ideditora } = req.body;
     const { id } = req.params;
 
-    // Recover info from this id
+    // recover info from this id
     const data = [ titulo, edicao, descricao, ideditora, id ];
-    const SQL = "UPDATE livros SET titulo = ?, edicao = ?, descricao = ?, ideditora = ?  WHERE id = ?";
+    const sql = "update livros set titulo = ?, edicao = ?, descricao = ?, ideditora = ?  where id = ?";
 
-    // Run query
-    db.run(SQL, data, (err) => {
+    // run query
+    db.run(sql, data, (err) => {
+        if (err){
+            console.error(err.message);
+        }
+        
+        res.redirect("/");
+    });
+});
+
+// "/delete" route -> GET view of the register DELETE the register from the
+// database.
+
+app.get("/delete/:id", (req, res) => {
+
+    // Get id
+    const { id } = req.params;
+
+    // Recover info from this id
+    const SQL = "SELECT * FROM livros WHERE id=?";
+
+    db.get(SQL, id, (err, row) => {
+        if (err){
+            return console.error(err.message)
+        }
+
+        // Render page with the id info
+        res.render("delete.ejs", { row: row })
+    });
+});
+
+
+app.delete("/delete/:id", (req, res) => {
+
+    // get parameters
+    const { id } = req.params;
+
+    const SQL = "DELETE FROM livros WHERE id = ?";
+
+    // run query
+    db.run(SQL, id, (err) => {
         if (err){
             console.error(err.message);
         }
