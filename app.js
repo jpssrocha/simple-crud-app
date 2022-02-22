@@ -1,9 +1,15 @@
-const express = require('express');
+const express = require("express");
 const app = express(); // Express boilerplate
 const methodOverride = require("method-override");
 
-const sqlite = require("sqlite3");
-let db = new sqlite.Database("./bd_livraria.db");
+// Setting database up
+const sqlite3 = require("sqlite3"); 
+const { open } = require("sqlite");
+
+dbPromise = open({
+      filename: "bd_livraria.db",
+      driver: sqlite3.Database
+});
 
 const PORT = 3000;
 
@@ -112,3 +118,17 @@ app.put("/edit/:id", (req, res) => {
         res.redirect("/");
     });
 });
+
+// Running code!
+main = async () => {
+
+    // open the database
+    db = await dbPromise;
+
+    app.listen(PORT, () => {
+        console.log(`Server running on: http://localhost:${PORT}`);
+    });
+};
+
+
+main();
