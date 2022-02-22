@@ -53,21 +53,29 @@ app.get("/insert_primary", (req, res) => {
     res.render("insert_primary.ejs");
 });
 
-app.post("/insert_primary", (req, res) => {
+
+app.post("/insert_primary", async (req, res) => {
+
+    // Insert data into master
 
     // Define SQL query
-    const SQL = "INSERT INTO livros (titulo, edicao, descricao, ideditora) VALUES (?, ? , ?, ?);";
+    const SQL_master = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
+                        VALUES (?, ? , ?, ?);`;
 
     // Take arguments from the URL
-    const {titulo, edicao, descricao, ideditora} = req.body;
-    const values = [titulo, edicao, descricao, ideditora];
+    const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
+    const valuesMaster = [titulo, edicao, descricao, ideditora];
 
-    db.run(SQL, values, (err) => {
-        if (err) {
-            return console.error(err.msg);
-        }
-    });
+    const { lastID } = await db.run(SQL_master, valuesMaster);
 
+    // Insert details on dependent table
+    
+    const SQL_detail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+                        VALUES (?, ?, ?)`
+    const valuesDetail = [ano_publicacao, nome_edicao, lastID]
+
+    await db.run(SQL_detail, valuesDetail);
+    
     res.redirect("/");
 });
 
