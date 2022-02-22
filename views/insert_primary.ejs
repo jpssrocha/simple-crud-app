@@ -2,7 +2,10 @@
 <body>
     <h3> Incluir Registro </h3>
 
-    <form action="insert_master" method="post">
+    <hr>
+    <br>
+
+    <form action="insert_primary" method="post">
 
         <!--
             The name attribute is the identifiers that will be sent through the
@@ -13,6 +16,8 @@
             The label element is used instead of a paragraph in this case to
             make the page more accessible.
         -->
+
+        <h4> Registro principal do livro </h4>
 
         <div>
         <label for="titulo">Título</label>
@@ -34,6 +39,22 @@
         <input type="text" class="form-control" id="ideditora" name="ideditora"/>
         </div>
 
+        <br>
+
+        <h4> Detalhes da publicação </h4>
+
+        <br>
+        
+        <div>
+        <label for="ano_publicacao"> Ano da publicação </label>
+        <input type="text" class="form-control" id="ano_publicacao" name="ano_publicacao"/>
+        </div>
+
+
+        <div>
+        <label for="nome_edicao"> Nome da publicação </label>
+        <input type="text" class="form-control" id="nome_edicao" name="nome_edicao"/>
+        </div>
         <br>
 
         <input type="submit" class="btn btn-primary" value="Inserir"/>
