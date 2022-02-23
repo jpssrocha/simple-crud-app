@@ -1,9 +1,9 @@
 <%- include("head.ejs") %>
-<% const {id, titulo, edicao, descricao, ideditora} = row; %>
+<% const {id, titulo, edicao, descricao, ideditora, nome_edicao, ano_publicacao, idpub} = row; %>
 <body>
     <h3> Editar Registro </h3>
 
-    <form action="/edit/<%= id %>?_method=PUT" method="POST">
+    <form action="/edit/<%= id %>/<%= idpub %>?_method=PUT" method="POST">
 
         <!--
             The name attribute is the identifiers that will be sent through the
@@ -14,6 +14,8 @@
             The label element is used instead of a paragraph in this case to
             make the page more accessible.
         -->
+
+        <h4> Registro principal do livro </h4>
 
         <div>
         <label for="titulo">Título</label>
@@ -33,6 +35,23 @@
         <div>
         <label for="ideditora">ID da editora</label>
         <input type="text" class="form-control" id="ideditora" name="ideditora" value="<%= ideditora %>"/>
+        </div>
+
+        <br>
+
+        <h4> Detalhes da publicação </h4>
+
+        <br>
+        
+        <div>
+        <label for="ano_publicacao"> Ano da publicação </label>
+        <input type="text" class="form-control" id="ano_publicacao" name="ano_publicacao" value="<%= ano_publicacao %>"/>
+        </div>
+
+
+        <div>
+        <label for="nome_edicao"> Nome da publicação </label>
+        <input type="text" class="form-control" id="nome_edicao" name="nome_edicao" value="<%= nome_edicao %>"/>
         </div>
 
         <br>
