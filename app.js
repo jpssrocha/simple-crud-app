@@ -23,21 +23,28 @@ app.use(methodOverride("_method")); // To override POST from form into the prope
 // "/" route -> GET a general view of the database registers
 app.get("/", async (req, res) => {
 
-    // const db = await dbPromise;
+    try {
 
-    const SQL = `SELECT * 
-                 FROM livros 
-                 INNER JOIN publicacao 
-                 ON (livros.id = publicacao.livro_id) 
-                 ORDER BY id DESC;`;
+        const SQL = `SELECT * 
+                     FROM livros 
+                     INNER JOIN publicacao 
+                     ON (livros.id = publicacao.livro_id) 
+                     ORDER BY id DESC;`;
 
-    rows = await db.all(SQL);
+        const rows = await db.all(SQL);
 
-    // To pass data to use with the EJS template we use the res.render
-    // method. It kind of create a scope to use with the EJS scriptlets with
-    // the passed JSON or collection
+        // To pass data to use with the EJS template we use the res.render
+        // method. It kind of create a scope to use with the EJS scriptlets with
+        // the passed JSON or collection
 
-    res.render("index.ejs" , { data: rows });
+        res.render("index.ejs" , { data: rows });
+
+    }
+    catch(error){
+        console.log(error);
+    }
+
+
 });
 
 // "/about" route -> GET the about page (not using static as middleware cause it
