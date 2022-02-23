@@ -73,12 +73,12 @@ app.post("/insert_primary", async (req, res) => {
         // Insert details on dependent table
 
         const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
-                            VALUES (?, ?, ?)`
-        const valuesDetail = [ano_publicacao, nome_edicao, lastID]
+                            VALUES (?, ?, ?)`;
+        const valuesDetail = [ano_publicacao, nome_edicao, lastID];
 
-        await db.run(sqlDetail, valuesDetail)
+        await db.run(sqlDetail, valuesDetail);
 
-        res.redirect("/");
+        res.status(201).redirect("/");
     }
     catch(error){
         console.error(error.message);
