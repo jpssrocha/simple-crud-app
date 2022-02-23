@@ -61,24 +61,24 @@ app.get("/insert_primary", (req, res) => res.render("insert_primary.ejs"));
 app.post("/insert_primary", async (req, res) => {
 
     try {
-    // Insert data into master
-    //  Take arguments from the URL
-    const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
-    const valuesMaster = [titulo, edicao, descricao, ideditora];
-    const sqlMaster = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
-                        VALUES (?, ? , ?, ?);`;
+        // Insert data into master
+        //  Take arguments from the URL
+        const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
+        const valuesMaster = [titulo, edicao, descricao, ideditora];
+        const sqlMaster = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
+                            VALUES (?, ? , ?, ?);`;
 
-    const { lastID } = await db.run(sqlMaster, valuesMaster);
+        const { lastID } = await db.run(sqlMaster, valuesMaster);
 
-    // Insert details on dependent table
+        // Insert details on dependent table
 
-    const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
-                        VALUES (?, ?, ?)`
-    const valuesDetail = [ano_publicacao, nome_edicao, lastID]
+        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+                            VALUES (?, ?, ?)`
+        const valuesDetail = [ano_publicacao, nome_edicao, lastID]
 
-    await db.run(sqlDetail, valuesDetail)
+        await db.run(sqlDetail, valuesDetail)
 
-    res.redirect("/");
+        res.redirect("/");
     }
     catch(error){
         console.error(error.message);
