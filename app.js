@@ -55,33 +55,34 @@ app.get("/about", (req, res) => res.render("about.ejs"));
 // "/insert_primary" route -> GET page with form for inserting new register on the
 // master table (livros) and POST it to the database.
 
-app.get("/insert_primary", (req, res) => {
-    // Load form
-    res.render("insert_primary.ejs");
-});
+app.get("/insert_primary", (req, res) => res.render("insert_primary.ejs"));
 
 
 app.post("/insert_primary", async (req, res) => {
 
+    try {
     // Insert data into master
-
-    // Define SQL query
-    const SQL_master = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
-                        VALUES (?, ? , ?, ?);`;
-
-    // Take arguments from the URL
+    //  Take arguments from the URL
     const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
     const valuesMaster = [titulo, edicao, descricao, ideditora];
+    const sqlMaster = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
+                        VALUES (?, ? , ?, ?);`;
 
-    const { lastID } = await db.run(SQL_master, valuesMaster);
+    const { lastID } = await db.run(sqlMaster, valuesMaster);
 
     // Insert details on dependent table
     
-    const SQL_detail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+    const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
                         VALUES (?, ?, ?)`
     const valuesDetail = [ano_publicacao, nome_edicao, lastID]
 
-    await db.run(SQL_detail, valuesDetail);
+    await db.run(sqlDetail, valuesDetail)
+
+    res.redirect("/");
+    }
+    catch(error){
+        console.error(error.message);
+    }
     
     res.redirect("/");
 });
