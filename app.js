@@ -83,7 +83,46 @@ app.post("/insert_primary", async (req, res) => {
     catch(error){
         console.error(error.message);
     }
-    
+
+});
+
+// "/insert_detail" route -> GET page for inserting detail and POST new detail.
+
+app.get("/insert_detail/:idMaster", async (req, res) => {
+
+    try {
+        // Recover detais from Master register
+        const { idMaster } = req.params;
+
+        const SQL = `SELECT *
+                     FROM livros
+                     INNER JOIN publicacao
+                     ON (livros.id = publicacao.livro_id)
+                     WHERE livros.id = ?;`;
+
+        const row = await db.get(SQL, idMaster);
+
+        // Pass to rendering page
+        res.render("insert_detail.ejs", { row });
+    }
+    catch(error){
+        console.error(error);
+    }
+});
+
+app.post("/insert_detail/:idMaster", async (req, res) => {
+    // Take take from the request
+    const { idMaster } = req.params;
+    const { ano_publicacao, nome_edicao } = req.body;
+
+    // Insert row into
+    const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+                       VALUES (?, ?, ?)`;
+    const data = [ ano_publicacao, nome_edicao, idMaster ];
+    console.log(data);
+
+    await db.run(sqlDetail, data).catch(error => console.error(error.message));
+
     res.redirect("/");
 });
 
