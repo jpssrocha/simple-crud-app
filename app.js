@@ -202,6 +202,24 @@ app.get("/delete/:idMaster/:idDetail", async (req, res) => {
 
 });
 
+
+app.delete("/delete_detail/:idMaster/:idDetail", async (req, res) => {
+    try {
+        const { idDetail } = req.params;
+
+        const SQL = `DELETE
+                     FROM publicacao
+                     WHERE idpub = ?`;
+
+        await db.run(SQL, idDetail);
+
+        res.redirect("/");
+    }
+    catch(error){
+        console.error(error);
+    }
+
+});
 // Running code!
 main = async () => {
 
