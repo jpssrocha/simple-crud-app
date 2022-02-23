@@ -129,44 +129,55 @@ app.post("/insert_detail/:idMaster", async (req, res) => {
 // "/edit" route -> GET page for editing then PUT modified version on the
 // database.
 
-app.get("/edit/:id", (req, res) => {
+app.get("/edit/:idMaster/:idDetail", async (req, res) => {
 
     // Get id
-    const { id } = req.params;
+    const { idMaster, idDetail } = req.params;
+    const ids = [ idMaster, idDetail ];
 
-    // Recover info from this id
-    const SQL = "SELECT * FROM livros WHERE id=?";
+    // Recover info from this id combination
+    const SQL = `SELECT *
+                 FROM livros
+                 INNER JOIN publicacao
+                 ON (livros.id = publicacao.livro_id)
+                 WHERE livros.id = ? and publicacao.idpub = ?;`;
 
-    db.get(SQL, id, (err, row) => {
-        if (err){
-            return console.error(err.message)
-        }
+    const row = await db.get(SQL, ids).catch(err => console.error(err));
 
-        // Render page with the id info
-        res.render("edit.ejs", { row: row })
-    });
+    res.render("edit.ejs", { row });
 });
 
 
-app.put("/edit/:id", (req, res) => {
+app.put("/edit/:idMaster/:idDetail", async (req, res) => {
 
-    // Get parameters
-    const { titulo, edicao, descricao, ideditora } = req.body;
-    const { id } = req.params;
+    try{
+        // Get parameters from URL
+        const { idMaster, idDetail } = req.params;
 
-    // Recover info from this id
-    const data = [ titulo, edicao, descricao, ideditora, id ];
-    const SQL = "UPDATE livros SET titulo = ?, edicao = ?, descricao = ?, ideditora = ?  WHERE id = ?";
+        // Get data
+        const { titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao } = req.body;
 
-    // Run query
-    db.run(SQL, data, (err) => {
-        if (err){
-            console.error(err.message);
-        }
-        
+        // Apply UPDATE to master table
+        const sqlMaster = "UPDATE livros SET titulo = ?, edicao = ?, descricao = ?, ideditora = ?  WHERE id = ?";
+        const dataMaster = [ titulo, edicao, descricao, ideditora, idMaster ];
+        const promiseMaster = db.run(sqlMaster, dataMaster);
+
+        // Apply UPDATE to detail table
+        const sqlDetail = "UPDATE publicacao SET ano_publicacao = ?, nome_edicao = ? WHERE idpub = ?;";
+        const dataDetail = [ ano_publicacao, nome_edicao, idDetail ];
+        const promiseDetail = db.run(sqlDetail, dataDetail);
+
+        // Resolve all promises
+        await Promise.all([promiseDetail, promiseMaster]);
+
         res.redirect("/");
-    });
+    }
+    catch(err){
+        console.error( err );
+    }
+
 });
+
 
 // Running code!
 main = async () => {
