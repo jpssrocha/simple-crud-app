@@ -220,6 +220,27 @@ app.delete("/delete_detail/:idMaster/:idDetail", async (req, res) => {
     }
 
 });
+
+
+app.delete("/delete_all/:idMaster", async (req, res) => {
+    try {
+        const { idMaster } = req.params;
+
+        // Fetch data from database
+        const SQL = `DELETE
+                     FROM publicacao
+                     WHERE livro_id = ?`;
+
+        await db.run(SQL, idMaster);
+
+        res.redirect("/");
+    }
+    catch(error){
+        console.error(error);
+    }
+
+});
+
 // Running code!
 main = async () => {
 
