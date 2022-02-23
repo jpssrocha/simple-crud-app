@@ -178,6 +178,29 @@ app.put("/edit/:idMaster/:idDetail", async (req, res) => {
 
 });
 
+// "/delete" route -> GET view of the register DELETE detail or DELETE all
+// details along with masters
+
+app.get("/delete/:idMaster/:idDetail", async (req, res) => {
+    try{
+        const { idMaster, idDetail} = req.params;
+
+        // Fetch data from database
+        const data = [ idMaster, idDetail ];
+        const SQL = `SELECT *
+                     FROM livros
+                     JOIN publicacao
+                     ON livros.id = publicacao.livro_id
+                     WHERE livros.id = ? and publicacao.idpub = ?`;
+        const row = await db.get(SQL, data);
+
+        res.render("delete.ejs", { row });
+    }
+    catch(error){
+        console.error(error);
+    }
+
+});
 
 // Running code!
 main = async () => {
