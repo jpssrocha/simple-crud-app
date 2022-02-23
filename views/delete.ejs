@@ -1,9 +1,9 @@
 <%- include("head.ejs") %>
-<% const {id, titulo, edicao, descricao, ideditora} = row; %>
+<% const { id, titulo, edicao, descricao, ideditora, idpub, ano_publicacao, nome_edicao } = row; %>
 <body>
     <h3> Deletar Registro </h3>
 
-    <form action="/delete/<%= id %>?_method=DELETE" method="POST">
+    <form action="/delete_detail/<%= id %>/<%= idpub %>?_method=DELETE" method="POST">
 
         <!--
             The name attribute is the identifiers that will be sent through the
@@ -37,11 +37,29 @@
 
         <br>
 
-        <input type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que quer apagar o registro?')" value="Deletar"/>
-        <a href="/" class="btn btn-outline-primary ">Voltar</a>  
+        <h4> Detalhes da publicação </h4>
+
+        <br>
+
+        <div>
+        <label for="ano_publicacao"> Ano da publicação </label>
+        <input type="text" class="form-control" id="ano_publicacao" name="ano_publicacao" value="<%= ano_publicacao %>" readonly/>
+        </div>
+
+
+        <div>
+        <label for="nome_edicao"> Nome da publicação </label>
+        <input type="text" class="form-control" id="nome_edicao" name="nome_edicao" value="<%= nome_edicao %>" readonly/>
+        </div>
+
+        <br>
+
+        <input type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que quer apagar o detalhe?')" value="Deletar detalhe"/>
+        <input type="submit" formaction="/delete_all/<%= id %>?_method=DELETE" class="btn btn-danger" onclick="return confirm('Tem certeza que quer apagar TODOS os detalhe deste livro?')" value="Deletar TUDO"/>
+        <a href="/" class="btn btn-outline-primary ">Voltar</a>
 
     </form>
 
- </body>  
+ </body>
 
  <%- include("foot.ejs") %>
