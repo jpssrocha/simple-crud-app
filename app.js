@@ -3,7 +3,7 @@ const app = express(); // Express boilerplate
 const methodOverride = require("method-override");
 
 // Setting database up
-const sqlite3 = require("sqlite3"); 
+const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
 
 dbPromise = open({
@@ -25,10 +25,10 @@ app.get("/", async (req, res) => {
 
     try {
 
-        const SQL = `SELECT * 
-                     FROM livros 
-                     INNER JOIN publicacao 
-                     ON (livros.id = publicacao.livro_id) 
+        const SQL = `SELECT *
+                     FROM livros
+                     INNER JOIN publicacao
+                     ON (livros.id = publicacao.livro_id)
                      ORDER BY id DESC;`;
 
         const rows = await db.all(SQL);
@@ -71,7 +71,7 @@ app.post("/insert_primary", async (req, res) => {
     const { lastID } = await db.run(sqlMaster, valuesMaster);
 
     // Insert details on dependent table
-    
+
     const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
                         VALUES (?, ?, ?)`
     const valuesDetail = [ano_publicacao, nome_edicao, lastID]
