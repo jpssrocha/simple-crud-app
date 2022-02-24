@@ -1,4 +1,5 @@
 bd_livraria.db
+.env
 
 # Logs
 logs
