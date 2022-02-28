@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 const sqlite3 = require("sqlite3");
 const { open } = require("sqlite");
 
-dbPromise = open({
+const dbPromise = open({
       filename: "bd_livraria.db",
       driver: sqlite3.Database
 });
