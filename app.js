@@ -21,13 +21,18 @@ app.get("/", async (req, res) => {
 
     try {
 
+        // Setting query
+
         const SQL = `SELECT *
                      FROM livros
                      INNER JOIN publicacao
                      ON (livros.id = publicacao.livro_id)
                      ORDER BY id DESC;`;
 
-        const rows = await db.all(SQL);
+        // Knex is a query builder, but it has the raw option, that i will use
+        // since i'm learning SQL.
+
+        const { rows } = await db.raw(SQL);
 
         // To pass data to use with the EJS template we use the res.render
         // method. It kind of create a scope to use with the EJS scriptlets with
