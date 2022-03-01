@@ -64,7 +64,7 @@ app.post("/insert_primary", async (req, res) => {
     try {
         // Insert data into master
         //  Take arguments from the URL
-        const {titulo, edicao, descricao, ideditora, ano_publicacao, idpub, nome_edicao} = req.body;
+        const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
         const valuesMaster = [titulo, edicao, descricao, ideditora];
         const sqlMaster = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
                            VALUES (?, ? , ?, ?)
@@ -76,9 +76,9 @@ app.post("/insert_primary", async (req, res) => {
 
         // Insert details on dependent table
 
-        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, idpub, livro_id)
-                            VALUES (?, ?, ?, ?)`;
-        const valuesDetail = [ano_publicacao, nome_edicao, idpub, id];
+        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+                            VALUES (?, ?, ?)`;
+        const valuesDetail = [ano_publicacao, nome_edicao, id];
 
         await db.raw(sqlDetail, valuesDetail);
 
@@ -121,15 +121,16 @@ app.post("/insert_detail/:idMaster", async (req, res) => {
     try {
         // Take take from the request
         const { idMaster } = req.params;
-        const { ano_publicacao, nome_edicao, idpub } = req.body;
+        const { ano_publicacao, nome_edicao } = req.body;
 
         // Insert row into
-        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, idpub, livro_id)
-        VALUES (?, ?, ?, ?)`;
-        const data = [ ano_publicacao, nome_edicao, idpub, idMaster ];
+        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
+        VALUES (?, ?, ?)`;
+        const data = [ ano_publicacao, nome_edicao, idMaster ];
 
         await db.raw(sqlDetail, data);
         res.redirect("/");
+
     } catch(error){
         console.error(error.message);
     }
@@ -149,7 +150,7 @@ app.get("/edit/:idMaster/:idDetail", async (req, res) => {
                  FROM livros
                  INNER JOIN publicacao
                  ON (livros.id = publicacao.livro_id)
-                 WHERE livros.id = ? and publicacao.idpub = ?;`;
+                 WHERE livros.id = ? and publicacao.id_pub = ?;`;
 
     const row = await db.get(SQL, ids).catch(err => console.error(err));
 
@@ -172,7 +173,7 @@ app.put("/edit/:idMaster/:idDetail", async (req, res) => {
         const promiseMaster = db.run(sqlMaster, dataMaster);
 
         // Apply UPDATE to detail table
-        const sqlDetail = "UPDATE publicacao SET ano_publicacao = ?, nome_edicao = ? WHERE idpub = ?;";
+        const sqlDetail = "UPDATE publicacao SET ano_publicacao = ?, nome_edicao = ? WHERE id_pub = ?;";
         const dataDetail = [ ano_publicacao, nome_edicao, idDetail ];
         const promiseDetail = db.run(sqlDetail, dataDetail);
 
@@ -200,7 +201,7 @@ app.get("/delete/:idMaster/:idDetail", async (req, res) => {
                      FROM livros
                      JOIN publicacao
                      ON livros.id = publicacao.livro_id
-                     WHERE livros.id = ? and publicacao.idpub = ?`;
+                     WHERE livros.id = ? and publicacao.id_pub = ?`;
         const row = await db.get(SQL, data);
 
         res.render("delete.ejs", { row });
@@ -218,7 +219,7 @@ app.delete("/delete_detail/:idMaster/:idDetail", async (req, res) => {
 
         const SQL = `DELETE
                      FROM publicacao
-                     WHERE idpub = ?`;
+                     WHERE id_pub = ?`;
 
         await db.run(SQL, idDetail);
 
