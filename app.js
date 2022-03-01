@@ -101,7 +101,8 @@ app.get("/insert_detail/:idMaster", async (req, res) => {
                      ON (livros.id = publicacao.livro_id)
                      WHERE livros.id = ?;`;
 
-        const row = await db.get(SQL, idMaster);
+        const { rows }  = await db.raw(SQL, idMaster);
+        const [ row ] = rows;
 
         // Pass to rendering page
         res.render("insert_detail.ejs", { row });
