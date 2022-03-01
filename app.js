@@ -64,25 +64,29 @@ app.post("/insert_primary", async (req, res) => {
     try {
         // Insert data into master
         //  Take arguments from the URL
-        const {titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao} = req.body;
+        const {titulo, edicao, descricao, ideditora, ano_publicacao, idpub, nome_edicao} = req.body;
         const valuesMaster = [titulo, edicao, descricao, ideditora];
         const sqlMaster = `INSERT INTO livros (titulo, edicao, descricao, ideditora)
-                            VALUES (?, ? , ?, ?);`;
+                           VALUES (?, ? , ?, ?)
+                           RETURNING id;`;
 
-        const { lastID } = await db.run(sqlMaster, valuesMaster);
+        const { rows }= await db.raw(sqlMaster, valuesMaster);
+        const { id } = rows[0];
+
 
         // Insert details on dependent table
 
-        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
-                            VALUES (?, ?, ?)`;
-        const valuesDetail = [ano_publicacao, nome_edicao, lastID];
+        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, idpub, livro_id)
+                            VALUES (?, ?, ?, ?)`;
+        const valuesDetail = [ano_publicacao, nome_edicao, idpub, id];
 
-        await db.run(sqlDetail, valuesDetail);
+        await db.raw(sqlDetail, valuesDetail);
 
         res.status(201).redirect("/");
     }
     catch(error){
-        console.error(error.message);
+        console.error(error);
+        res.send({error : error.message})
     }
 
 });
