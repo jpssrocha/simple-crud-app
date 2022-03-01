@@ -117,19 +117,22 @@ app.get("/insert_detail/:idMaster", async (req, res) => {
 });
 
 app.post("/insert_detail/:idMaster", async (req, res) => {
-    // Take take from the request
-    const { idMaster } = req.params;
-    const { ano_publicacao, nome_edicao } = req.body;
 
-    // Insert row into
-    const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, livro_id)
-                       VALUES (?, ?, ?)`;
-    const data = [ ano_publicacao, nome_edicao, idMaster ];
-    console.log(data);
+    try {
+        // Take take from the request
+        const { idMaster } = req.params;
+        const { ano_publicacao, nome_edicao, idpub } = req.body;
 
-    await db.run(sqlDetail, data).catch(error => console.error(error.message));
+        // Insert row into
+        const sqlDetail = `INSERT INTO publicacao (ano_publicacao, nome_edicao, idpub, livro_id)
+        VALUES (?, ?, ?, ?)`;
+        const data = [ ano_publicacao, nome_edicao, idpub, idMaster ];
 
-    res.redirect("/");
+        await db.raw(sqlDetail, data);
+        res.redirect("/");
+    } catch(error){
+        console.error(error.message);
+    }
 });
 
 // "/edit" route -> GET page for editing then PUT modified version on the
