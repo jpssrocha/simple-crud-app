@@ -1,17 +1,13 @@
 const express = require("express");
 const app = express(); // Express boilerplate
 const methodOverride = require("method-override");
+require("dotenv").config();
 
-// Setting database up
-const sqlite3 = require("sqlite3");
-const { open } = require("sqlite");
+// Importing database
+const db = require("./db/db");
 
-const dbPromise = open({
-      filename: "bd_livraria.db",
-      driver: sqlite3.Database
-});
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.set("engine ejs", "ejs"); // Setting up node app to use ejs pages over html
 
@@ -241,16 +237,7 @@ app.delete("/delete_all/:idMaster", async (req, res) => {
 
 });
 
-// Running code!
-main = async () => {
 
-    // open the database
-    db = await dbPromise;
-
-    app.listen(PORT, () => {
-        console.log(`Server running on: http://localhost:${PORT}`);
-    });
-};
-
-
-main();
+app.listen(PORT, () => {
+    console.log(`Server running on: http://localhost:${PORT}`);
+});
