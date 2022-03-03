@@ -6,7 +6,6 @@ const fs = require('fs');
 const { join } = require('path');
 const { parse } = require('csv-parse/sync');
 
-console.log(__dirname + '/bd_livraria-livros.csv')
 const fileContent = fs.readFileSync(join(__dirname, 'bd_livraria-livros.csv'));
 const data = parse(fileContent, {columns: true});
 
