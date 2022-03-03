@@ -5,9 +5,13 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "knex": "knex --cwd ./db"
+    "knex": "knex --cwd ./db",
+    "start": "node app.js"
   },
   "keywords": [],
+  "engines": {
+      "node": "17.x"
+        },
   "author": "",
   "license": "ISC",
   "dependencies": {
