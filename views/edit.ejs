@@ -1,9 +1,9 @@
 <%- include("head.ejs") %>
-<% const {id, titulo, edicao, descricao, ideditora, nome_edicao, ano_publicacao, idpub} = row; %>
+<% const {id, titulo, edicao, descricao, ideditora, nome_edicao, ano_publicacao, id_pub} = row; %>
 <body>
     <h3> Editar Registro </h3>
 
-    <form action="/edit/<%= id %>/<%= idpub %>?_method=PUT" method="POST">
+    <form action="/edit/<%= id %>/<%= id_pub %>?_method=PUT" method="POST">
 
         <!--
             The name attribute is the identifiers that will be sent through the
@@ -42,7 +42,7 @@
         <h4> Detalhes da publicação </h4>
 
         <br>
-        
+
         <div>
         <label for="ano_publicacao"> Ano da publicação </label>
         <input type="text" class="form-control" id="ano_publicacao" name="ano_publicacao" value="<%= ano_publicacao %>"/>
@@ -57,10 +57,10 @@
         <br>
 
         <input type="submit" class="btn btn-primary" value="Editar"/>
-        <a href="/" class="btn btn-outline-primary ">Voltar</a>  
+        <a href="/" class="btn btn-outline-primary ">Voltar</a>
 
     </form>
 
- </body>  
+ </body>
 
  <%- include("foot.ejs") %>

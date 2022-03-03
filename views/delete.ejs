@@ -1,9 +1,9 @@
 <%- include("head.ejs") %>
-<% const { id, titulo, edicao, descricao, ideditora, idpub, ano_publicacao, nome_edicao } = row; %>
+<% const { id, titulo, edicao, descricao, ideditora, id_pub, ano_publicacao, nome_edicao } = row; %>
 <body>
     <h3> Deletar Registro </h3>
 
-    <form action="/delete_detail/<%= id %>/<%= idpub %>?_method=DELETE" method="POST">
+    <form action="/delete_detail/<%= id %>/<%= id_pub %>?_method=DELETE" method="POST">
 
         <!--
             The name attribute is the identifiers that will be sent through the

@@ -5,7 +5,7 @@
 
     <p> Registros das duas tabelas relacionadas: livros (mestre) e publicações
     (detalhe). Cada livro pode ter múltiplas publicações associadas que estão
-    na tabela secundária: publicações.</p> 
+    na tabela secundária: publicações.</p>
 
     <br>
 
@@ -13,21 +13,21 @@
     <table class="table table-hover">
     <thead>
     <tr>
-        <th> ID </th>
+        <th> ID do livro </th>
         <th> Título </th>
         <th> Edição </th>
         <th> Descrição </th>
         <th> Ano da publicação </th>
         <th> Nome da edição </th>
-        <th class="d-print-none">  
-        <a class="btn btn-sm btn-success" href="/insert_primary">Novo registro</a>  
-        </th>  
+        <th class="d-print-none">
+        <a class="btn btn-sm btn-success" href="/insert_primary">Novo registro</a>
+        </th>
     </tr>
     </thead>
     <tbody>
 
     <% for (const row of data) { %>
-            <% const {id, titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao, idpub} = row; %>
+            <% const {id, titulo, edicao, descricao, ideditora, ano_publicacao, nome_edicao, id_pub} = row; %>
           <tr>
               <td> <%= id %> </td>
               <td> <%= titulo %> </td>
@@ -35,17 +35,17 @@
               <td> <%= descricao %> </td>
               <td> <%= ano_publicacao %> </td>
               <td> <%= nome_edicao %> </td>
-              <td class="d-print-none">  
-                  <a class="btn btn-sm btn-info" href="/insert_detail/<%= id %>">Incluir</a>  
-                  <a class="btn btn-sm btn-warning" href="/edit/<%= id %>/<%= idpub %>">Editar</a>  
-                  <a class="btn btn-sm btn-danger" href="/delete/<%= id %>/<%= idpub %>">Deletar</a>  
-              </td>  
+              <td class="d-print-none">
+                  <a class="btn btn-sm btn-info" href="/insert_detail/<%= id %>">Incluir</a>
+                  <a class="btn btn-sm btn-warning" href="/edit/<%= id %>/<%= id_pub %>">Editar</a>
+                  <a class="btn btn-sm btn-danger" href="/delete/<%= id %>/<%= id_pub %>">Deletar</a>
+              </td>
           </tr>
     <% } %>
 
     </tbody>
     </table>
     </div>
- </body>  
+ </body>
 
  <%- include("foot.ejs") %>
