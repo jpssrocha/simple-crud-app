@@ -17,4 +17,4 @@ technologies to implement a REST like webapp:
     * Postgres -> on deploy
 
 The app is deployed via Heroku on:
->
+> https://evening-beach-43442.herokuapp.com/
